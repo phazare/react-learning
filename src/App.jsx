@@ -32,7 +32,7 @@ function App() {
     }
   }
   return (
-    <Container className="clearfix">
+    <Container>
       {/* <h1>Hello World</h1> */}
       {/* <DemoApp></DemoApp> */}
       {emptyMsg}
