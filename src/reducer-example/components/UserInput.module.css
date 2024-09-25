@@ -1,0 +1,6 @@
+.input-text { 
+  border: 1px solid silver;
+  box-shadow: 2px 3px 4px silver;
+  outline: none;
+  padding: 5px;
+}

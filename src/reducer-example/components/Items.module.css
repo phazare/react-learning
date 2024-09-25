@@ -1,0 +1,10 @@
+.item-list { 
+  color: brown !important;
+  font-weight: 600;
+}
+.cancel {
+  color: red;
+  font-weight: 700;
+  float: right;
+  cursor: pointer;
+}
