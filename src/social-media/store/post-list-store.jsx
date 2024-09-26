@@ -1,7 +1,9 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const PostListContext = createContext({
   posts: [],
+  loaderState: false,
   addPost: () => {},
   deletePost: () => {},
 });
@@ -12,20 +14,34 @@ const postListReducer = (currValue, action) => {
     newPostValue = [action.payload.data, ...currValue];
   } else if (action.type === "DELETE_POST") {
     newPostValue = currValue.filter((x) => x.id !== action.payload.id);
+  } else if (action.type === "GET_ALL_POSTS") {
+    newPostValue = action.payload.data;
   }
   return newPostValue;
 };
 
 const PostListProvider = ({ children }) => {
   const [posts, dispatchPost] = useReducer(postListReducer, DEFAULT_POST_LIST);
+  const [loaderState, setLoaderState] = useState(false);
+  const navigate = useNavigate();
 
-  const addPost = (data) => {
-    dispatchPost({
-      type: "ADD_POST",
-      payload: {
-        data,
-      },
-    });
+  const addPost = (post) => {
+    fetch("https://dummyjson.com/posts/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(post),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log("res", res);
+        dispatchPost({
+          type: "ADD_POST",
+          payload: {
+            data: res,
+          },
+        });
+        navigate("posts")
+      });
   };
 
   const deletePost = (id) => {
@@ -37,10 +53,28 @@ const PostListProvider = ({ children }) => {
     });
   };
 
+  const getAllPosts = (data) => {
+    dispatchPost({
+      type: "GET_ALL_POSTS",
+      payload: { data },
+    });
+  };
+
+  useEffect(() => {
+    setLoaderState(true);
+    fetch("https://dummyjson.com/posts")
+      .then((res) => res.json())
+      .then((res) => {
+        getAllPosts(res.posts);
+        setLoaderState(false);
+      });
+  }, []);
+
   return (
     <PostListContext.Provider
       value={{
         posts,
+        loaderState,
         addPost,
         deletePost,
       }}

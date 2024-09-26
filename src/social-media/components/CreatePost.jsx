@@ -12,12 +12,11 @@ const CreatePost = () => {
   const submitDetails = (event) => {
     event.preventDefault();
     const data = {
-      id: Date.now(),
       title: title.current.value,
-      body: body.current.value,
-      reactions: reactions.current.value,
-      tags: tags.current.value.split(" "),
       userId: userId.current.value,
+      body: body.current.value,
+      reactions: { likes: reactions.current.value },
+      tags: tags.current.value.split(" "),
     };
     addPost(data);
     title.current.value = "";

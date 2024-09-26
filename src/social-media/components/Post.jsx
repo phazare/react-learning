@@ -22,7 +22,7 @@ const Post = ({ post }) => {
             </span>
           ))}
           <div className="alert alert-primary m-0 mt-2 p-2" role="alert">
-            {post.reactions} people reacted on this post !
+            {post.reactions.likes} people like this post !
           </div>
         </div>
       </div>

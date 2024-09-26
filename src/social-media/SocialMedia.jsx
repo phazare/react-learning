@@ -7,6 +7,7 @@ import CreatePost from "./components/CreatePost";
 import PostListProvider from "./store/post-list-store";
 import "./SocialMedia.css";
 import { useState } from "react";
+import { Outlet } from "react-router-dom";
 
 const SocialMedia = () => {
   const [selectedOption, setSelectedOption] = useState("Home");
@@ -20,12 +21,7 @@ const SocialMedia = () => {
         ></Sidebar>
         <div className="content">
           <Header></Header>
-          {selectedOption === "Home" ? (
-            <PostList></PostList>
-          ) : (
-            <CreatePost></CreatePost>
-          )}
-
+          <Outlet />
           <Footer></Footer>
         </div>
       </div>
